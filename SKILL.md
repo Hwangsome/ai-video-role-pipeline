@@ -1,6 +1,6 @@
 ---
 name: ai-video-role-pipeline
-description: Multi-type AI video creation workflow with 5 non-overlapping roles that outputs ready-to-paste Seedance 2.0 image-to-video assets including exact @Image references, first-frame assignments, and full multimodal prompts. Requires or extracts product selling points and user pain points so the video clearly shows benefit and problem. Supports target market/country and platform selection for culturally and platform-matched style, web search and short-video platform research for real creative references. Use for product showcase, lifestyle seeding, talking-head, absurd comedy, plot twist, ASMR, mockumentary. Triggers on Seedance prompt pipeline, video role design, multi-type short video production.
+description: Multi-type AI video creation workflow with 5 non-overlapping roles that outputs ready-to-paste Seedance 2.0 image-to-video assets including exact @Image references, first-frame assignments, and full multimodal prompts. First asks user for product images, selling points and pain points (then combines with web research). Supports target market/country and platform selection for culturally and platform-matched style. Use for product showcase, lifestyle seeding, talking-head, absurd comedy, plot twist, ASMR, mockumentary. Triggers on Seedance prompt pipeline, video role design, multi-type short video production.
 ---
 
 # AI Video Role Pipeline (Seedance 2.0 Ready)
@@ -17,9 +17,35 @@ Every run must end with assets that work immediately in Seedance 2.0:
 - **Target market/country + target platform style is respected**
 - Creative ideas are informed by real short-video references when possible
 
-## Target Market + Platform (重要)
+## Step 0 — First Ask the User (mandatory before full pipeline)
 
-User can specify both. If not specified:
+Before locking the concept or running the 5 roles, **always ask the user** for the following (in one clear message):
+
+1. **产品图 / 已有素材**
+   - 你现在有哪些产品相关图片？（完整包装图、刷头特写、使用场景、前后对比等）
+   - 可以上传或描述，没有也可以说「没有，请帮我规划需要哪些图」
+
+2. **卖点（可多选或补充）**
+   - 你认为这个产品最想突出的 1–3 个卖点是什么？
+   - 如果不确定，可以说「不确定，请结合网上信息帮我提炼」
+
+3. **痛点（可多选或补充）**
+   - 目标用户现在最烦的是什么？有哪些使用痛点？
+   - 如果不确定，可以说「不确定，请结合网上信息帮我找」
+
+4. （可选但推荐）**目标市场 + 平台**
+   - 例如：中国大陆 + 抖音 / 美国 + TikTok / 中国大陆 + 小红书 等
+
+然后：
+- 用户已提供的卖点/痛点 → 优先采用
+- 用户说「不确定」或只给了部分 → 用 `scripts/research_creatives.py` + web_search / x_keyword_search 补充
+- 最终在 concept_brief 和 Asset Package 里标注来源：`[用户提供]` / `[网上研究]` / `[推断]`
+
+**不要在用户还没回答产品图、卖点、痛点之前就直接输出完整分镜和 Seedance 提示词。**
+
+## Target Market + Platform
+
+User can specify both. If not specified after asking:
 - Market defaults to **中国大陆**
 - Platform defaults according to market (中国大陆→抖音, 美国→TikTok, etc.)
 
@@ -40,26 +66,28 @@ When market + platform are set:
 - Narrative tone, humor, pacing, visual references, and length habits match the platform
 - Final Asset Package **must state both 目标市场 and 目标平台**
 
-## Research Step (before or inside Content Strategist)
+## Research Step (after user reply, if needed)
 
-When 卖点 / 痛点 / 创意方向不足时，先做研究：
+When用户对卖点/痛点说「不确定」或信息不足时：
 
 ```bash
 python scripts/research_creatives.py "产品名" --type 搞怪离谱 --market 中国大陆 --platform 抖音
 python scripts/research_creatives.py "产品名" --market 美国 --platform TikTok
 ```
 
-Then use the returned queries with `web_search` / `x_keyword_search`, summarize with `scripts/format_insight.py`, and feed into `concept_brief.md`.
+用返回的 query 调用 `web_search` / `x_keyword_search`，再用 `scripts/format_insight.py` 整理，与用户提供的内容合并后写入 `concept_brief.md`。
 
-Never invent pain points or selling points when real signals are available. Mark inferred items as `[推断]`.
+Never invent pain points or selling points when real signals (user or web) are available. Mark inferred items as `[推断]`.
 
-## Input Handling
+## Input Handling Summary
 
-- Product name only → research + infer 卖点/痛点 + default market 中国大陆 + default platform 抖音
-- + target market → style and research biased to that market
-- + target platform → further bias research and creative tone to that platform’s norms
-- Product images → extract visual + functional selling points, then research
-- Explicit 卖点/痛点 list → use directly, still optionally research for local differentiation
+| 用户输入情况 | 行为 |
+|--------------|------|
+| 只给产品名 | 先问产品图、卖点、痛点、市场/平台 |
+| 给了卖点/痛点 | 优先使用，可再网上补充差异化创意 |
+| 说「不确定」 | 启动研究脚本 + web search，再与用户确认关键结论 |
+| 给了产品图 | 从图片提取视觉/功能卖点，再问/补充痛点 |
+| 明确市场+平台 | 全程按该市场+平台风格执行 |
 
 Even 搞怪离谱 must serve a clear product benefit or pain-point contrast.
 
@@ -85,21 +113,21 @@ reference @Video1's camera movement and action
 BGM references @Audio1
 ```
 
-## Five Non-Overlapping Roles (execute in strict order)
+## Five Non-Overlapping Roles (execute in strict order, after Step 0)
 
 ### 1. Content Strategist
-**Goal**: Lock content type + **目标市场** + **目标平台** + extract/confirm 卖点 & 痛点 + produce `concept_brief.md`.
+**Goal**: After collecting user input + optional research, lock content type + 目标市场 + 目标平台 + 卖点 & 痛点 + produce `concept_brief.md`.
 
 Required fields:
 - 视频类型
-- **目标市场 / 国家**（未指定则默认中国大陆并注明）
-- **目标平台**（未指定则按市场默认并注明）
+- **目标市场 / 国家**
+- **目标平台**
 - 核心概念（必须体现产品如何解决痛点或展示卖点，且符合市场+平台风格）
-- 用户痛点（1–3个）
-- 核心卖点（1–3个，对应痛点）
-- 情绪关键词 / 目标受众 / 时长目标 / 风格标签（需反映市场+平台）
+- 用户痛点（1–3个，标注来源）
+- 核心卖点（1–3个，对应痛点，标注来源）
+- 情绪关键词 / 目标受众 / 时长目标 / 风格标签
+- 已有产品图情况 / 需要补拍或生成的参考图
 - 特殊要求
-- 推荐参考素材类型
 - （可选）研究来源摘要
 
 **Stop**: Brief complete → hand only the brief.
@@ -115,6 +143,7 @@ Each shot notes which 痛点 or 卖点 it serves.
 
 ### 3. Visual & Persona Reference Designer
 **Goal**: Exact image requirements + `ref_map.md` supporting story, product proof, and market/platform aesthetic.
+优先复用用户已有产品图，不足部分明确列出需要补充的图。
 
 **Stop**: ref_map clear → hand upstream.
 
@@ -136,15 +165,16 @@ Must include full ready-to-paste prompt, explicit @ roles, time segments if need
 ## 0. Product Insight Summary
 - 目标市场：
 - 目标平台：
-- 用户痛点：
-- 核心卖点：
+- 用户痛点：（来源标注）
+- 核心卖点：（来源标注）
 - 本视频如何体现：
+- 已有/需要的产品图情况：
 - （可选）研究来源
 
 ## 1. Required Images (upload these in order)
-| Label | Purpose | Description of image content |
-|-------|---------|------------------------------|
-| Image1 | ... | ... |
+| Label | Purpose | Description of image content | 来源建议 |
+|-------|---------|------------------------------|----------|
+| Image1 | ... | ... | 用户已有 / 需生成 |
 
 ## 2. Ready-to-Paste Prompt
 ```
@@ -173,6 +203,7 @@ Must include full ready-to-paste prompt, explicit @ roles, time segments if need
 | `scripts/format_insight.py` | Format collected 痛点 / 卖点 / 创意方向 into clean markdown |
 
 ## Hard Rules
+- **先问用户产品图、卖点、痛点（以及市场/平台），再进入完整流水线。**
 - Roles never cross boundaries.
 - Final output must be copy-paste ready for Seedance 2.0.
 - Even 搞怪离谱 must serve product 卖点/痛点 contrast.
@@ -180,12 +211,11 @@ Must include full ready-to-paste prompt, explicit @ roles, time segments if need
 - Prefer 4–15s. Keep total reference files ≤12.
 - No realistic human faces in reference instructions.
 - Every @ reference must state its exact purpose.
-- Research when 卖点/创意信号不足；标记推断内容。
+- 卖点/痛点标注来源：`[用户提供]` / `[网上研究]` / `[推断]`。
 
 ## Quick Start
-User: “一次性马桶刷 搞怪离谱 中国大陆 抖音”  
-或 “一次性马桶刷 搞怪离谱 美国 TikTok”  
-或 “一次性马桶刷 搞怪离谱”（默认 中国大陆 + 抖音）  
-→ (Optional) research with market + platform bias  
+User: “一次性马桶刷 搞怪离谱”  
+→ Agent 先问：有哪些产品图？卖点？痛点？目标市场和平台？  
+→ 用户回答后（可结合网上研究）  
 → Run roles 1→5  
-→ Emit complete Seedance Asset Package that explicitly shows 目标市场 + 目标平台.
+→ Emit complete Seedance Asset Package that explicitly shows 目标市场 + 目标平台 + 来源标注。
