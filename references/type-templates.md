@@ -25,21 +25,26 @@ Face + speech focused. Lip-sync critical. (Avoid realistic face refs if possible
 @Image1 as character reference. Medium close-up, speaking clearly with natural gestures. Occasional cutaways to supporting visuals. Dialogue in double quotes for lip-sync. Clean background, professional yet approachable. Clear voice + light background music.
 ```
 
-## 搞怪离谱
-Absurd comedy. Strong contrast + exaggeration.
+## 搞怪离谱（必须足够离谱）
+Extreme absurd comedy. 动作和逻辑要夸张到不合理、让人觉得「这也行？」。
+核心结构优先使用「别人的产品很惨 / 很普通 → 我们的产品夸张地超强」。
 ```
-@Image1 as the product / first frame. 
-Character starts serious/normal. Suddenly explodes into wild exaggerated actions using the product in completely wrong ways. Fast cuts, shaky energy, manic expressions. Abruptly returns to deadpan calm and discards item. Chaotic then sudden silence. High-energy absurd comedy, strong visual contrast.
+@Image1 as the product / first frame.
+0–3s: 用其他普通马桶刷（或同类产品）认真清洁，结果很惨：刷头脏、水花乱溅、怎么刷都刷不干净，表情无奈崩溃。
+3–8s: 突然拿出我们的一次性马桶刷，动作夸张到离谱——刷一下立刻锃亮、污垢像被磁铁吸走、刷头还能当麦克风唱歌、当指挥棒、当武器挥舞，整个人像开了挂。
+8–11s: 用完直接扔掉，一脸「这很正常」的冷静，字幕或语气强调「一次性，用完就扔，干净到离谱」。
+Fast cuts, shaky energy when crazy, sudden calm at the end. High-energy absurd comedy, extreme visual contrast between “别人的不行” and “我们的超强”.
 ```
 
-## 剧情反转
-Narrative with clear twist point.
+## 剧情反转 / 强反差
+Clear, exaggerated contrast. 预期被大幅打破，反差要夸张。
+优先结构：别人的很普通/很烦 → 我们的出现后效果被夸张放大。
 ```
-@Image1 as opening frame. 
-0–4s: Establish normal situation and expectation.
-4–8s: Build small details that will pay off.
-8–12s: Clear reversal + new reality and reaction.
-Keep camera motivated by story beats. Emotional shift must be readable. Soundtrack shifts with the twist.
+@Image1 as opening frame.
+0–4s: 建立强烈预期——用普通产品怎么都弄不好，痛点被放大到夸张程度（脏、臭、麻烦、崩溃）。
+4–8s: 我们的产品出现，效果被夸张表现（一次搞定、干净到反光、轻松到离谱）。
+8–12s: 反转后的新现实 + 冷静或得意反应，强调卖点。
+Camera and soundtrack must shift hard with the contrast. Emotional swing should be readable and over-the-top.
 ```
 
 ## 感官氛围 / ASMR
