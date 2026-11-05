@@ -136,8 +136,16 @@ Required fields:
 **Goal**: Type + market + platform adapted `shot_list.md` that forces 痛点 → 卖点 demonstration.
 
 Tone, pacing, humor density, length habits, and cultural/platform references must match.
-
 Each shot notes which 痛点 or 卖点 it serves.
+
+**Type structure rules (必须遵守)**:
+- 产品展示 → 痛点场景 → 产品出现 → 卖点演示 → 结果
+- 生活种草 → 日常痛点瞬间 → 自然使用 → 轻松解决
+- 人物口播 → 先说痛点 → 再展示卖点证据
+- **搞怪离谱 → 必须足够离谱**：别人的产品很惨/很普通 → 我们的产品夸张到开挂级别的强 → 冷静收尾强调真实卖点。动作和逻辑要夸张到让人觉得「这也行？」
+- **剧情反转 / 强反差 → 反差必须夸张**：把痛点放大到崩溃，再用我们的产品把效果夸张到「一次搞定/干净到反光」，预期被大幅打破
+- ASMR → 感官细节强化产品质感卖点
+- 伪纪录 → 观察痛点 → 自然露出卖点
 
 **Stop**: Shot list complete → hand shot_list + brief.
 
@@ -206,7 +214,8 @@ Must include full ready-to-paste prompt, explicit @ roles, time segments if need
 - **先问用户产品图、卖点、痛点（以及市场/平台），再进入完整流水线。**
 - Roles never cross boundaries.
 - Final output must be copy-paste ready for Seedance 2.0.
-- Even 搞怪离谱 must serve product 卖点/痛点 contrast.
+- Even 搞怪离谱 must serve product 卖点/痛点 contrast, and must be extreme enough (别人的不行 → 我们的夸张超强).
+- 反差/剧情反转 must be exaggerated, not mild.
 - Target market and platform must be stated; defaults applied and noted if unspecified.
 - Prefer 4–15s. Keep total reference files ≤12.
 - No realistic human faces in reference instructions.
