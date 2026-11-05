@@ -1,27 +1,29 @@
-# Full Role Contracts
+# Full Role Contracts (with Product Insight)
 
 ## 1. Content Strategist
-Goal: Produce unambiguous concept_brief.md that locks type and creative direction.
-Required: 视频类型, 核心概念, 情绪关键词, 目标受众, 时长目标, 风格标签, 关键信息/卖点, 特殊要求, 推荐参考素材类型.
-Stop: Brief complete and type field filled.
+Goal: Lock type + extract/confirm 用户痛点 & 核心卖点 + produce concept_brief.md.
+Required fields now include explicit 痛点 and 卖点. Core concept must show product solving pain or proving benefit.
+If missing, ask or mark [推断].
+Stop: Brief complete.
 Handoff: Only concept_brief.md.
 
 ## 2. Narrative & Shot Director
-Goal: Type-adapted shot_list.md with per-shot duration, camera, emotion, audio, reference needs.
-Stop: Shot list complete and totals within 4-15s practical range.
-Handoff: shot_list.md + concept_brief.md.
+Goal: Type-adapted shot_list.md that forces 痛点 → 卖点 demonstration into the structure.
+Each shot should note which pain or benefit it serves.
+Stop: Shot list complete.
+Handoff: shot_list.md + brief.
 
 ## 3. Visual & Persona Reference Designer
-Goal: Exact image list (≤9) + ref_map.md with clear purpose for each @ImageN.
-Stop: Consistency checked; every image has an explicit role assignment example.
-Handoff: pack description + map + upstream files.
+Goal: Exact image list (≤9) + ref_map.md supporting both story and product proof (detail shots that prove 卖点).
+Stop: Every image has clear purpose.
+Handoff: map + upstream.
 
 ## 4. Seedance Multi-Type Prompt Engineer
-Goal: Production-ready seedance_prompts.md with correct @ syntax, time segments if needed, camera, audio, parameters.
-Stop: Self-checked against Seedance constraints and type template.
-Handoff: prompts + all upstream.
+Goal: Production-ready prompt with correct @ syntax that visibly demonstrates 卖点 and contrasts 痛点.
+Stop: Self-checked.
+Handoff: prompts + upstream.
 
 ## 5. Generation & Type-QA Specialist
-Goal: Final Seedance Asset Package (Required Images table + Ready-to-Paste Prompt + Parameters + QA checklist).
+Goal: Final Seedance Asset Package including Product Insight Summary + Required Images table + Ready-to-Paste Prompt + Parameters + QA (including product relevance checks).
 Stop: Package complete.
-Handoff: Deliverables to user.
+Handoff: Deliver to user.
