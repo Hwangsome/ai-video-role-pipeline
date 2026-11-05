@@ -3,12 +3,13 @@
 Multi-type AI video creation skill. Final output is a **copy-paste-ready Seedance Asset Package**.
 
 ## Key Features
+- **Step 0: First asks user for product images, 卖点, 痛点** (then combines with web research)
 - Strict Seedance 2.0 @ reference syntax and constraints
 - Explicit image role assignments + time-segmented prompts
-- **Requires / extracts 卖点 + 痛点** and forces them into the narrative
-- **Target market/country + target platform selection** (抖音 / 小红书 / TikTok / YouTube Shorts / Instagram Reels / B站 / Shopee Video …)
-- Research scripts that generate market + platform biased queries
-- Final Asset Package always states 目标市场 and 目标平台
+- Forces 卖点 + 痛点 into the narrative (with source labels)
+- Target market/country + target platform selection
+- Research scripts for market + platform biased creative search
+- Final Asset Package always states 目标市场、目标平台、来源
 
 ## Scripts
 - `scripts/research_creatives.py` — generate search queries for product + type + market + platform
