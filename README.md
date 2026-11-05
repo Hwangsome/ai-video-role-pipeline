@@ -4,15 +4,14 @@ Multi-type AI video creation skill. Final output is a **copy-paste-ready Seedanc
 
 ## Key Features
 - Strict Seedance 2.0 @ reference syntax and constraints
-- Explicit image role assignments
-- Time-segmented prompts
+- Explicit image role assignments + time-segmented prompts
 - **Requires / extracts 卖点 + 痛点** and forces them into the narrative
-- **Target market / country selection** (中国大陆 / 美国 / 日本 / 东南亚 / 韩国 …) so style, humor, pacing and cultural references match
-- Research scripts that generate market-biased queries for Douyin / TikTok / Xiaohongshu etc.
-- Final deliverable designed for direct upload + paste into Seedance / Jimeng
+- **Target market/country + target platform selection** (抖音 / 小红书 / TikTok / YouTube Shorts / Instagram Reels / B站 / Shopee Video …)
+- Research scripts that generate market + platform biased queries
+- Final Asset Package always states 目标市场 and 目标平台
 
 ## Scripts
-- `scripts/research_creatives.py` — generate search queries for product + type + market
+- `scripts/research_creatives.py` — generate search queries for product + type + market + platform
 - `scripts/format_insight.py` — format collected pain points, selling points and ideas
 
 ## Supported Types
