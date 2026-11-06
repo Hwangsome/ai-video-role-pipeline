@@ -4,7 +4,7 @@
 
 `ai-video-role-pipeline` 是一个面向电商 AI 视频生产的 Agent Skill。它不是"写一段提示词"，而是一条流水线：先向用户收齐产品图、卖点、痛点和目标市场，再按五个角色的顺序把创意一路推到可直接上传生成的 **Seedance Asset Package**。
 
-[快速开始](#快速开始) · [支持的内容类型](#同一商品可以拍成什么) · [工作流程](#它怎么工作) · [交付物](#你会拿到什么) · [实际案例](#实际案例) · [技能入口](SKILL.md)
+[快速开始](#快速开始) · [支持的内容类型](#同一商品可以拍成什么) · [工作流程](#它怎么工作) · [交付物](#你会拿到什么) · [实际案例](#实际案例) · [技能入口](ai-video-role-pipeline/SKILL.md)
 
 ## 为什么做这个技能
 
@@ -27,7 +27,7 @@ AI 视频生成经常卡在几件事上：提示词写了一堆，生成出来�
 https://github.com/Hwangsome/ai-video-role-pipeline
 
 需要安装的技能名称：ai-video-role-pipeline
-仓库内的技能路径：仓库根目录（SKILL.md 在根目录）
+仓库内的技能路径：ai-video-role-pipeline/
 
 请先读取仓库 README 和 SKILL.md，再按当前 Agent 实际支持的技能安装方式，
 安装完整文件夹，保留 references/ 与 scripts/，不要只复制 SKILL.md。
@@ -41,7 +41,7 @@ https://github.com/Hwangsome/ai-video-role-pipeline
 git clone https://github.com/Hwangsome/ai-video-role-pipeline.git
 ```
 
-将整个文件夹放到你所用工具的技能目录（例如 WorkBuddy 用户级技能目录 `~/.workbuddy/skills/`），或让能读取本地文件的 Agent 直接按 [`SKILL.md`](SKILL.md) 执行。
+将 `ai-video-role-pipeline/` 子文件夹放到你所用工具的技能目录（例如 WorkBuddy 用户级技能目录 `~/.workbuddy/skills/`），或让能读取本地文件的 Agent 直接按 [`SKILL.md`](ai-video-role-pipeline/SKILL.md) 执行。
 
 技能本体不依赖任何第三方包；`scripts/` 下的研究脚本只使用 Python 标准库（3.10+），用于生成定向搜索查询和整理研究结果。
 
@@ -77,7 +77,7 @@ git clone https://github.com/Hwangsome/ai-video-role-pipeline.git
 | 感官氛围 / ASMR | 感官细节强化产品质感卖点 | 享受声音、动作和秩序 |
 | 伪纪录 / 采访 | 观察痛点 → 自然露出卖点 | 看熟悉的严肃形式讲意外的事 |
 
-目标市场决定幽默方式、节奏和文化梗：中国大陆偏快节奏强反差卡点，马来西亚/东南亚偏明亮热情生活化，美国偏口语和 irony。目标平台决定时长习惯和字幕密度。详见 [`references/type-templates.md`](references/type-templates.md) 与 SKILL.md 中的市场/平台配置。
+目标市场决定幽默方式、节奏和文化梗：中国大陆偏快节奏强反差卡点，马来西亚/东南亚偏明亮热情生活化，美国偏口语和 irony。目标平台决定时长习惯和字幕密度。详见 [`references/type-templates.md`](ai-video-role-pipeline/references/type-templates.md) 与 SKILL.md 中的市场/平台配置。
 
 ## 它怎么工作
 
@@ -122,7 +122,7 @@ Step 0：向用户收产品图 / 卖点 / 痛点 / 市场+平台
 
 ## 实际案例
 
-### [一次性马桶刷 · 马来西亚 TikTok · 搞怪离谱](examples/01-disposable-toilet-brush-my-tiktok/index.html)
+### [一次性马桶刷 · 马来西亚 TikTok · 搞怪离谱](ai-video-role-pipeline/examples/01-disposable-toilet-brush-my-tiktok/index.html)
 
 完整走完 Step 0 → 五角色的真实产出，包括：
 
@@ -130,31 +130,33 @@ Step 0：向用户收产品图 / 卖点 / 痛点 / 市场+平台
 - 研究结论：TikTok 马来清洁内容以 malas 自嘲钩子 + 口语化马来语字幕跑量 `[网上研究]`
 - 创意《Toilet Brush Horror Story》：传统刷惨剧（缠发/甩水/臭味波浪）→ 蓝泡爆发开挂三连刷 → 一按落盒摊手炫耀 → 马来语字幕冷静收尾
 - 9 张参考图打满上限：产品 5 张 + AI 脏刷 1 张 + 人物三视图 3 张（正面锁脸 / 侧面锁轮廓 / 背面锁头巾）
-- **已按此资产包实际生成成片**：[generated-video.mp4](examples/01-disposable-toilet-brush-my-tiktok/generated-video.mp4)（15s · 9:16），「POWER UP ⚡」蓝泡爆发等关键时序与提示词一一对应
-- 配套单文件 HTML 交付物（含一键复制提示词 + 成片播放）：[examples/01-disposable-toilet-brush-my-tiktok/index.html](examples/01-disposable-toilet-brush-my-tiktok/index.html)
+- **已按此资产包实际生成成片**：[generated-video.mp4](ai-video-role-pipeline/examples/01-disposable-toilet-brush-my-tiktok/generated-video.mp4)（15s · 9:16），「POWER UP ⚡」蓝泡爆发等关键时序与提示词一一对应
+- 配套单文件 HTML 交付物（含一键复制提示词 + 成片播放）：[examples/01-disposable-toilet-brush-my-tiktok/index.html](ai-video-role-pipeline/examples/01-disposable-toilet-brush-my-tiktok/index.html)
 
-配套文档：[concept_brief.md](examples/01-disposable-toilet-brush-my-tiktok/concept_brief.md) · [shot_list.md](examples/01-disposable-toilet-brush-my-tiktok/shot_list.md) · [ref_map.md](examples/01-disposable-toilet-brush-my-tiktok/ref_map.md) · [Seedance_Asset_Package.md](examples/01-disposable-toilet-brush-my-tiktok/Seedance_Asset_Package.md)
+配套文档：[concept_brief.md](ai-video-role-pipeline/examples/01-disposable-toilet-brush-my-tiktok/concept_brief.md) · [shot_list.md](ai-video-role-pipeline/examples/01-disposable-toilet-brush-my-tiktok/shot_list.md) · [ref_map.md](ai-video-role-pipeline/examples/01-disposable-toilet-brush-my-tiktok/ref_map.md) · [Seedance_Asset_Package.md](ai-video-role-pipeline/examples/01-disposable-toilet-brush-my-tiktok/Seedance_Asset_Package.md)
 
 ## 仓库结构
 
 ```text
-ai-video-role-pipeline/
+ai-video-role-pipeline/                # 仓库根目录
 ├── README.md
-├── SKILL.md                           # 唯一技能入口：Step 0 + 五角色流水线
-├── references/
-│   ├── role-contracts.md              # 五角色的交付契约与接力规则
-│   ├── seedance-syntax.md             # @ 参考图语法与硬约束
-│   └── type-templates.md              # 七种内容类型的时间轴模板
-├── scripts/
-│   ├── research_creatives.py          # 按商品+类型+市场+平台生成定向搜索查询
-│   └── format_insight.py              # 把研究结论整理成结构化 Markdown
-└── examples/
-    └── 01-disposable-toilet-brush-my-tiktok/
-        ├── index.html                 # 单文件 HTML 交付物（可一键复制提示词）
-        ├── concept_brief.md
-        ├── shot_list.md
-        ├── ref_map.md
-        └── Seedance_Asset_Package.md
+└── ai-video-role-pipeline/            # 技能文件夹（整体安装这一层）
+    ├── SKILL.md                       # 唯一技能入口：Step 0 + 五角色流水线
+    ├── references/
+    │   ├── role-contracts.md          # 五角色的交付契约与接力规则
+    │   ├── seedance-syntax.md         # @ 参考图语法与硬约束
+    │   └── type-templates.md          # 七种内容类型的时间轴模板
+    ├── scripts/
+    │   ├── research_creatives.py      # 按商品+类型+市场+平台生成定向搜索查询
+    │   └── format_insight.py          # 把研究结论整理成结构化 Markdown
+    └── examples/
+        └── 01-disposable-toilet-brush-my-tiktok/
+            ├── index.html             # 单文件 HTML 交付物（可一键复制提示词）
+            ├── generated-video.mp4    # 实际生成成片（15s · 9:16）
+            ├── concept_brief.md
+            ├── shot_list.md
+            ├── ref_map.md
+            └── Seedance_Asset_Package.md
 ```
 
 ## 使用边界
