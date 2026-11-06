@@ -1,12 +1,12 @@
 # AI Video Role Pipeline
 
-把一个商品变成能直接粘贴进即梦 / Seedance 2.0 的完整生成资产包：五个不重叠的编导角色、真实的痛点与卖点、明确的 @ 参考图分工。
+把一个商品变成能直接粘贴进生成平台的完整资产包：五个不重叠的编导角色、真实的痛点与卖点、明确的参考素材分工。**同时支持 Seedance 2.0（即梦）`@Image` 语法与 MiniMax H3 官方语法（T2VA/I2VA/FL2VA/L2VA/Ref2VA）**。
 
-`ai-video-role-pipeline` 是一个面向电商 AI 视频生产的 Agent Skill。它不是"写一段提示词"，而是一条流水线：先向用户收齐产品图、卖点、痛点和目标市场，再按五个角色的顺序把创意一路推到可直接上传生成的 **Seedance Asset Package**。
+`ai-video-role-pipeline` 是一个面向电商 AI 视频生产的 Agent Skill。它不是"写一段提示词"，而是一条流水线：先向用户收齐产品图、卖点、痛点、目标市场与目标模型，再按五个角色的顺序把创意一路推到可直接上传生成的 **Asset Package**。
 
 仓库同时收录配套技能 **`ecom-product-asset-gen`**：从产品演示视频生成与视频同款一致的产品资产图（三视图 / 细节图 / 场景图）、去除生成平台水印，并从画面提炼卖点痛点洞察——正好补上流水线 Step 0 "产品图不够、卖点痛点靠脑补" 和 Step 3 参考图来源这两个缺口。
 
-[快速开始](#快速开始) · [支持的内容类型](#同一商品可以拍成什么) · [工作流程](#它怎么工作) · [交付物](#你会拿到什么) · [实际案例](#实际案例) · [配套技能](#配套技能产品资产图生成) · [技能入口](ai-video-role-pipeline/SKILL.md)
+[快速开始](#快速开始) · [支持的内容类型](#同一商品可以拍成什么) · [目标模型](#目标模型seedance-20-与-minimax-h3) · [工作流程](#它怎么工作) · [交付物](#你会拿到什么) · [实际案例](#实际案例) · [配套技能](#配套技能产品资产图生成) · [技能入口](ai-video-role-pipeline/SKILL.md)
 
 ## 为什么做这个技能
 
@@ -53,18 +53,19 @@ git clone https://github.com/Hwangsome/ai-video-role-pipeline.git
 使用 ai-video-role-pipeline，给一次性马桶刷做一条视频。
 ```
 
-技能会先走 Step 0，问你四件事：
+技能会先走 Step 0，问你五件事：
 
 1. 你有哪些产品图？（或需要我规划 + AI 生成补齐）
 2. 卖点用你提供的，还是结合网上研究？
 3. 痛点用你提供的，还是结合网上研究？
 4. 目标市场 + 平台？（如 中国大陆+抖音 / 马来西亚+TikTok）
+5. 目标模型？（Seedance 2.0 / MiniMax H3 / 两个都要）
 
 回答后流水线自动跑完五个角色，产出完整资产包。也可以跳过提问直接给全量输入：
 
 ```text
 产品图在 D:\资产\图片\；卖点：自带清洁液、一键抛头、不脏手；
-痛点：旧刷子洗不净发臭；市场马来西亚，平台 TikTok，类型搞怪离谱，直接出稿。
+痛点：旧刷子洗不净发臭；市场马来西亚，平台 TikTok，类型搞怪离谱；模型 H3，直接出稿。
 ```
 
 ## 同一商品可以拍成什么
@@ -81,10 +82,26 @@ git clone https://github.com/Hwangsome/ai-video-role-pipeline.git
 
 目标市场决定幽默方式、节奏和文化梗：中国大陆偏快节奏强反差卡点，马来西亚/东南亚偏明亮热情生活化，美国偏口语和 irony。目标平台决定时长习惯和字幕密度。详见 [`references/type-templates.md`](ai-video-role-pipeline/references/type-templates.md) 与 SKILL.md 中的市场/平台配置。
 
+## 目标模型：Seedance 2.0 与 MiniMax H3
+
+同一套分镜可以输出两种模型的提示词，素材清单不变，语法层分别编译。
+
+| 维度 | Seedance 2.0 / 即梦 | MiniMax H3 |
+|------|---------------------|------------|
+| 参考素材写法 | `@Image1 as the first frame`、`@Image2's character as the subject` | `<Subject N>` / `<Picture N>` / `<Video N>` / `<Audio N>` |
+| 提示词结构 | 单段多模态描述 + 生成参数 | Base 三段（`integrated_multimodal_description` / `overall_soundscape` / `non_diegetic_music`）或 Ref2VA 六段式 |
+| 模式 | 图生视频 / 首尾帧 / 参考生 | T2VA / I2VA / FL2VA / L2VA / Ref2VA |
+| 多图身份锚定 | 多张 `@Image` 直接挂参考 | 三视图合并为一个 `<Subject N>`，在其定义里引多张 `<Picture>` |
+| 时间轴写法 | 提示词内写 0–3s / 3–6s | `[Shot 1]` 无时间戳，后续 `At 00:03.000, ...` |
+| 时长 | 4–15s | 4–15s（不存在"统一 10 秒上限"这种说法） |
+| 对白 | 自然语言描述口播 | `<d>[Language] 原文</d>` + 稳定 `(Sx)` |
+
+H3 语法细节（mode routing、retention 标记、镜头词表、`@Image`→H3 标签映射表、H3 专用 QA 与故障修复）见 [`references/h3-syntax.md`](ai-video-role-pipeline/references/h3-syntax.md)。**官方语法优先级最高**：本项目沉淀的生产经验不会被包装成官方要求。
+
 ## 它怎么工作
 
 ```text
-Step 0：向用户收产品图 / 卖点 / 痛点 / 市场+平台
+Step 0：向用户收产品图 / 卖点 / 痛点 / 市场+平台 / 目标模型
         ↓（不足的部分用 scripts/ + web_search 补研究）
 1. Content Strategist        锁类型、市场、平台、卖点痛点 → concept_brief.md
         ↓
@@ -92,14 +109,14 @@ Step 0：向用户收产品图 / 卖点 / 痛点 / 市场+平台
         ↓
 3. Visual & Reference Designer  逐张定义参考图用途与来源 → ref_map.md
         ↓
-4. Seedance Prompt Engineer  产出 @ 语法完整提示词（自检后交付）
+4. Prompt Engineer（Seedance / H3）  按目标模型编译提示词并自检
         ↓
-5. Generation & QA Specialist  汇总成 Seedance Asset Package + 分类型 QA
+5. Generation & QA Specialist  汇总成 Asset Package（Seedance 或 H3 版）+ 分类型 QA
 ```
 
 五个角色不越界：上游只交付文件，下游不重写上游结论。
 
-### Seedance 2.0 硬约束（技能内置）
+### 硬约束（技能内置）
 
 | 输入 | 限制 | 说明 |
 |------|------|------|
@@ -109,18 +126,21 @@ Step 0：向用户收产品图 / 卖点 / 痛点 / 市场+平台
 | 总文件 | ≤ 12 | 优先放最有说服力的素材 |
 | 成片时长 | 4–15s | 提示词复杂度与时长匹配 |
 | 参考图 @ 语法 | 每个引用必须写明用途 | 如 `@Image4 作为细节参考` |
+| **H3** 参考标签 | `<Subject N>` / `<Picture N>` / `<Video N>` / `<Audio N>` | 同一角色只建一个 Subject |
+| **H3** 段落结构 | Base 三段 或 Ref2VA 六段 | 段落名与顺序不可改 |
+| **H3** 时间戳 | `[Shot 1]` 无时间戳，后续 `At 00:03.000, ...` | 严格递增且落在时长内 |
 
 ## 你会拿到什么
 
 | 你提出的任务 | 对应交付 |
 |---|---|
-| "给 XX 商品做条视频" | Step 0 提问 → 完整 Seedance Asset Package |
-| "只给我提示词" | 带 @ 参考图分工的可粘贴提示词 + 生成参数 |
+| "给 XX 商品做条视频" | Step 0 提问 → 完整 Asset Package（Seedance 或 H3） |
+| "只给我提示词" | 目标模型语法的可粘贴提示词 + 生成参数 |
 | "市场换成美国 / 平台换成小红书" | 研究查询、叙事节奏、字幕语言与风格全部重定向 |
 | "帮我补一张对比道具图" | 图生图方案 + 存放路径 + 更新后的 ref_map |
 | "生成出来人脸/产品走形了" | QA 定位 → 锚点调整方案（换参考图 / 改 @ 分工 / 降级为纯文生） |
 
-最终交付固定为 **Seedance Asset Package**：Insight Summary（含来源标注）、参考图清单（含上传顺序）、可粘贴提示词、生成参数、分类型 QA 清单。默认保存 Markdown；需要网页版交付物时可产出单文件 HTML（见实际案例）。
+最终交付固定为 **Asset Package**（Seedance 或 H3 版）：Insight Summary（含来源标注与目标模型）、参考素材清单（含上传顺序与 H3 标签映射）、可粘贴提示词、生成参数、分类型与模型专用 QA 清单。默认保存 Markdown；需要网页版交付物时可产出单文件 HTML（见实际案例）。
 
 ## 实际案例
 
@@ -133,9 +153,10 @@ Step 0：向用户收产品图 / 卖点 / 痛点 / 市场+平台
 - 创意《Toilet Brush Horror Story》：传统刷惨剧（缠发/甩水/臭味波浪）→ 蓝泡爆发开挂三连刷 → 一按落盒摊手炫耀 → 马来语字幕冷静收尾
 - 9 张参考图打满上限：产品 5 张 + AI 脏刷 1 张 + 人物三视图 3 张（正面锁脸 / 侧面锁轮廓 / 背面锁头巾）
 - **已按此资产包实际生成成片**：[generated-video.mp4](ai-video-role-pipeline/examples/01-disposable-toilet-brush-my-tiktok/generated-video.mp4)（15s · 9:16），「POWER UP ⚡」蓝泡爆发等关键时序与提示词一一对应
+- 同一分镜另出 **MiniMax H3 Ref2VA 版提示词**（六段式官方结构，演示双模型编译）
 - 配套单文件 HTML 交付物（含一键复制提示词 + 成片播放）：[examples/01-disposable-toilet-brush-my-tiktok/index.html](ai-video-role-pipeline/examples/01-disposable-toilet-brush-my-tiktok/index.html)
 
-配套文档：[concept_brief.md](ai-video-role-pipeline/examples/01-disposable-toilet-brush-my-tiktok/concept_brief.md) · [shot_list.md](ai-video-role-pipeline/examples/01-disposable-toilet-brush-my-tiktok/shot_list.md) · [ref_map.md](ai-video-role-pipeline/examples/01-disposable-toilet-brush-my-tiktok/ref_map.md) · [Seedance_Asset_Package.md](ai-video-role-pipeline/examples/01-disposable-toilet-brush-my-tiktok/Seedance_Asset_Package.md)
+配套文档：[concept_brief.md](ai-video-role-pipeline/examples/01-disposable-toilet-brush-my-tiktok/concept_brief.md) · [shot_list.md](ai-video-role-pipeline/examples/01-disposable-toilet-brush-my-tiktok/shot_list.md) · [ref_map.md](ai-video-role-pipeline/examples/01-disposable-toilet-brush-my-tiktok/ref_map.md) · [Seedance_Asset_Package.md](ai-video-role-pipeline/examples/01-disposable-toilet-brush-my-tiktok/Seedance_Asset_Package.md) · [H3_Asset_Package.md](ai-video-role-pipeline/examples/01-disposable-toilet-brush-my-tiktok/H3_Asset_Package.md)
 
 ## 配套技能：产品资产图生成（ecom-product-asset-gen）
 
@@ -176,7 +197,8 @@ ai-video-role-pipeline/                # 仓库根目录
 │   ├── SKILL.md                       # 唯一技能入口：Step 0 + 五角色流水线
 │   ├── references/
 │   │   ├── role-contracts.md          # 五角色的交付契约与接力规则
-│   │   ├── seedance-syntax.md         # @ 参考图语法与硬约束
+│   │   ├── seedance-syntax.md         # Seedance 2.0 @ 语法与硬约束
+│   │   ├── h3-syntax.md               # MiniMax H3 官方语法（Base + Ref2VA 六段式 + 标签映射）
 │   │   └── type-templates.md          # 七种内容类型的时间轴模板
 │   ├── scripts/
 │   │   ├── research_creatives.py      # 按商品+类型+市场+平台生成定向搜索查询
@@ -188,7 +210,8 @@ ai-video-role-pipeline/                # 仓库根目录
 │           ├── concept_brief.md
 │           ├── shot_list.md
 │           ├── ref_map.md
-│           └── Seedance_Asset_Package.md
+│           ├── Seedance_Asset_Package.md   # Seedance 2.0 @Image 版提示词
+│           └── H3_Asset_Package.md         # MiniMax H3 Ref2VA 版提示词（同一分镜）
 └── ecom-product-asset-gen/            # 配套技能：从演示视频生成产品资产图 + 卖点痛点洞察
     ├── SKILL.md                       # 抽帧审片 → 图生图重绘 → 去水印 → 归档 → 卖点痛点提炼
     ├── references/

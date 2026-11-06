@@ -1,18 +1,18 @@
 ---
 name: ai-video-role-pipeline
-description: Multi-type AI video creation workflow with 5 non-overlapping roles that outputs ready-to-paste Seedance 2.0 image-to-video assets including exact @Image references, first-frame assignments, and full multimodal prompts. First asks user for product images, selling points and pain points (then combines with web research). Supports target market/country and platform selection for culturally and platform-matched style. Use for product showcase, lifestyle seeding, talking-head, absurd comedy, plot twist, ASMR, mockumentary. Triggers on Seedance prompt pipeline, video role design, multi-type short video production.
+description: Multi-type AI video creation workflow with 5 non-overlapping roles that outputs ready-to-paste prompts for both Seedance 2.0 (@Image references) and MiniMax H3 (official T2VA/I2VA/FL2VA/L2VA/Ref2VA grammar). First asks user for product images, selling points and pain points (then combines with web research). Supports target market/country, platform, and target model selection for culturally, platform- and model-matched output. Use for product showcase, lifestyle seeding, talking-head, absurd comedy, plot twist, ASMR, mockumentary. Triggers on Seedance prompt pipeline, MiniMax H3 prompt, video role design, multi-type short video production.
 ---
 
-# AI Video Role Pipeline (Seedance 2.0 Ready)
+# AI Video Role Pipeline (Seedance 2.0 + MiniMax H3 Ready)
 
-Produce complete, copy-paste-ready assets for Jimeng / Seedance 2.0 multimodal video generation. Final deliverable is a **Seedance Asset Package**.
+Produce complete, copy-paste-ready assets for multimodal video generation — **Seedance 2.0 / 即梦**（`@Image` 语法）或 **MiniMax H3**（官方 `integrated_multimodal_description` / `subject_definitions` 语法）。最终交付物是 **Asset Package**，两种模型各有对应版本。
 
 ## Core Goal
 
-Every run must end with assets that work immediately in Seedance 2.0:
+Every run must end with assets that work immediately in the target model:
 - Clear list of required images with exact labels and roles
-- Exact @Image / @Video / @Audio assignments
-- Full production prompt using correct @ syntax
+- Exact reference assignments：Seedance 用 `@Image` / `@Video` / `@Audio`；H3 用 `<Subject N>` / `<Picture N>` / `<Video N>` / `<Audio N>`
+- Full production prompt in the correct grammar for that model
 - **Product selling points (卖点) and user pain points (痛点) are explicitly woven into the narrative**
 - **Target market/country + target platform style is respected**
 - Creative ideas are informed by real short-video references when possible
@@ -36,12 +36,17 @@ Before locking the concept or running the 5 roles, **always ask the user** for t
 4. （可选但推荐）**目标市场 + 平台**
    - 例如：中国大陆 + 抖音 / 美国 + TikTok / 中国大陆 + 小红书 等
 
+5. **目标模型（决定提示词语法）**
+   - Seedance 2.0 / 即梦 → `@Image` 语法
+   - MiniMax H3 → 官方 Base（T2VA/I2VA/FL2VA/L2VA）或 Ref2VA 六段式
+   - 不确定时说「两个都要」，同时产出两版提示词（同一分镜，两套语法）
+
 然后：
 - 用户已提供的卖点/痛点 → 优先采用
 - 用户说「不确定」或只给了部分 → 用 `scripts/research_creatives.py` + web_search / x_keyword_search 补充
 - 最终在 concept_brief 和 Asset Package 里标注来源：`[用户提供]` / `[网上研究]` / `[推断]`
 
-**不要在用户还没回答产品图、卖点、痛点之前就直接输出完整分镜和 Seedance 提示词。**
+**不要在用户还没回答产品图、卖点、痛点之前就直接输出完整分镜和提示词。**
 
 ## Target Market + Platform
 
@@ -102,7 +107,17 @@ Even 搞怪离谱 must serve a clear product benefit or pain-point contrast.
 | Duration | 4–15s | match prompt complexity to length |
 | Faces | No realistic human faces in uploaded refs | system blocks them |
 
-### @ Reference Syntax (mandatory)
+## MiniMax H3 Runtime Facts（2026-08-29 校验）
+
+| 项 | 值 |
+|----|-----|
+| 输出时长 | 4–15s（不存在统一 10 秒上限） |
+| 帧率 / 音频 | 24 FPS / 立体声 32 kHz |
+| 分辨率 | 基础短边默认 768 px；2K 属 H3-Regenerate-2K |
+| Ref2VA 素材 | 图片 ≤ 9、视频 ≤ 3（单段 2–15s，总 ≤15s）、音频 ≤ 3（单段 2–15s，总 ≤15s）、混合文件 ≤ 12 |
+| 模式 | Base：T2VA / I2VA / FL2VA / L2VA；全参考：Ref2VA |
+
+### @ Reference Syntax (mandatory for Seedance 2.0)
 
 ```
 @Image1 as the first frame
@@ -112,6 +127,17 @@ product details reference @Image4
 reference @Video1's camera movement and action
 BGM references @Audio1
 ```
+
+### H3 Reference Labels (mandatory for MiniMax H3)
+
+```
+<Subject N>  reusable visible content (person / product / prop / environment)
+<Picture N>  concrete frame anchor (first frame / last frame / keyframe / storyboard)
+<Video N>    edit source, continuation point, or whole-video temporal structure
+<Audio N>    copied or referenced audio signal
+```
+
+详细语法（模式选择、六段式结构、retention 标记、对白 `<d>` 标签、运行时事实、`@Image`→H3 标签映射表、H3 专用 QA）见 [`references/h3-syntax.md`](references/h3-syntax.md)。**在写 H3 提示词前必读**，且官方语法优先级最高：任何本项目经验写法都不能说成官方要求。
 
 ## Five Non-Overlapping Roles (execute in strict order, after Step 0)
 
@@ -155,17 +181,26 @@ Each shot notes which 痛点 or 卖点 it serves.
 
 **Stop**: ref_map clear → hand upstream.
 
-### 4. Seedance Multi-Type Prompt Engineer
-**Goal**: Production-ready prompt with correct @ syntax that demonstrates 卖点, contrasts 痛点, and matches target market + platform style.
+### 4. Multi-Model Prompt Engineer
+**Goal**: Production-ready prompt in the **target model's** grammar that demonstrates 卖点, contrasts 痛点, and matches target market + platform style.
 
-Must include full ready-to-paste prompt, explicit @ roles, time segments if needed, camera, audio, parameters, and market/platform-appropriate mood/pacing descriptors.
+**Seedance 2.0 branch**：`@Image` / `@Video` / `@Audio` 语法，写明每个引用的用途、时间段、运镜、音频、参数与市场/平台语气。
 
-**Stop**: Prompt self-checked → hand final package.
+**MiniMax H3 branch**（先读 `references/h3-syntax.md`）：
+1. 选模式：无图→T2VA；仅首帧→I2VA；首+尾帧→FL2VA；仅尾帧→L2VA；多张身份/场景/道具图（≤9）→Ref2VA
+2. Base 家族写三段：`integrated_multimodal_description` / `overall_soundscape` / `non_diegetic_music`；首行按模式加官方对齐指令
+3. Ref2VA 写六段且顺序不变：`subject_definitions` → `summary` → `retention_analysis` → `detailed_description` → `overall_soundscape` → `non_diegetic_music`
+4. 分镜表时间点改写成 `[Shot 1]`（无时间戳）+ `[Shot 2] At 00:03.000, ...`（严格递增、落在时长内）
+5. 同一人物三视图合并为一个 `<Subject N>`；商品白底图建 `<Subject>` 并在定义里引 `<Picture>`
+6. 对白用 `<d>[Language] 原文</d>` + 稳定 `(Sx)`；音效进 `overall_soundscape`，BGM 进 `non_diegetic_music`
+7. 生成类 `detailed_description` 约 350–500 英文词
+
+**Stop**: Prompt self-checked（含该模型的专用 QA）→ hand final package.
 
 ### 5. Generation & Type-QA Specialist
-**Goal**: Final **Seedance Asset Package** + QA that checks product relevance and market/platform fit.
+**Goal**: Final **Asset Package** + QA that checks product relevance, market/platform fit, and model-specific compliance.
 
-**Final Deliverable Format (mandatory)**:
+**Final Deliverable Format (mandatory)** — 按目标模型选择其一：
 
 ```markdown
 # Seedance 2.0 Asset Package
@@ -173,6 +208,7 @@ Must include full ready-to-paste prompt, explicit @ roles, time segments if need
 ## 0. Product Insight Summary
 - 目标市场：
 - 目标平台：
+- 目标模型：Seedance 2.0
 - 用户痛点：（来源标注）
 - 核心卖点：（来源标注）
 - 本视频如何体现：
@@ -198,7 +234,34 @@ Must include full ready-to-paste prompt, explicit @ roles, time segments if need
 - [ ] 产品始终可识别
 - [ ] 节奏/幽默/视觉是否符合目标市场习惯
 - [ ] 是否符合目标平台内容习惯（时长、竖屏、卡点等）
-- [ ] ...
+```
+
+```markdown
+# H3 Asset Package
+
+## 0. Product Insight Summary
+（同上，但「目标模型」写 H3 模式，如 MiniMax H3 · Ref2VA）
+
+## 1. Required Assets (upload these in order)
+| Label | H3 标签 | Purpose | Description | 来源建议 |
+|-------|---------|---------|-------------|----------|
+| Image1 | <Picture 1> / <Subject 1> 内引 | ... | ... | 用户已有 / 需生成 |
+
+## 2. Ready-to-Paste Prompt
+```
+[官方语法全文：Base 三段 或 Ref2VA 六段，段落名一字不差]
+```
+
+## 3. Generation Parameters
+- Mode（T2VA/I2VA/FL2VA/L2VA/Ref2VA）/ Duration / Resolution / Audio
+
+## 4. H3 QA Checklist
+- [ ] 模式选对；官方段落名与顺序正确
+- [ ] Subject 与 Picture 语义不混用；同一角色只一个 Subject ID
+- [ ] `[Shot 1]` 无时间戳；后续时间严格递增且在时长内
+- [ ] 多镜有因果桥；一镜一主导运镜
+- [ ] 对白 `<d>[Language]` + 稳定 (Sx)；soundscape 不复述对白
+- [ ] 卖点被动作证明、痛点被清晰感知、产品可识别
 ```
 
 **Stop**: Package complete → deliver to user.
@@ -211,20 +274,31 @@ Must include full ready-to-paste prompt, explicit @ roles, time segments if need
 | `scripts/format_insight.py` | Format collected 痛点 / 卖点 / 创意方向 into clean markdown |
 
 ## Hard Rules
-- **先问用户产品图、卖点、痛点（以及市场/平台），再进入完整流水线。**
+- **先问用户产品图、卖点、痛点（以及市场/平台、目标模型），再进入完整流水线。**
 - Roles never cross boundaries.
-- Final output must be copy-paste ready for Seedance 2.0.
+- Final output must be copy-paste ready for the **target model**（Seedance 2.0 或 MiniMax H3）。
+- H3 提示词必须严格使用官方语法：段落名、顺序、`[Shot N]` 时间戳、`<d>` 对白、retention 标记一律照官方；本项目经验写法不得冒称官方要求。
 - Even 搞怪离谱 must serve product 卖点/痛点 contrast, and must be extreme enough (别人的不行 → 我们的夸张超强).
 - 反差/剧情反转 must be exaggerated, not mild.
 - Target market and platform must be stated; defaults applied and noted if unspecified.
-- Prefer 4–15s. Keep total reference files ≤12.
-- No realistic human faces in reference instructions.
-- Every @ reference must state its exact purpose.
+- Prefer 4–15s（两个模型都支持）. Keep total reference files ≤12.
+- Seedance：上传参考图不得含真实人脸（除非用户确认其通道允许授权人物图）。
+- Every reference must state its exact purpose：Seedance 用 @ 标签，H3 用 `<Subject>/<Picture>` 定义。
 - 卖点/痛点标注来源：`[用户提供]` / `[网上研究]` / `[推断]`。
 
 ## Quick Start
 User: “一次性马桶刷 搞怪离谱”  
-→ Agent 先问：有哪些产品图？卖点？痛点？目标市场和平台？  
+→ Agent 先问：有哪些产品图？卖点？痛点？目标市场和平台？目标模型（Seedance / H3）？  
 → 用户回答后（可结合网上研究）  
 → Run roles 1→5  
-→ Emit complete Seedance Asset Package that explicitly shows 目标市场 + 目标平台 + 来源标注。
+→ Emit complete Asset Package（Seedance 版 `@Image` 提示词 或 H3 版官方语法提示词），明确标注 目标市场 + 目标平台 + 目标模型 + 来源标注。  
+→ 若用户要「两个都要」：同一分镜出两套提示词，分两个文件/两节，不混用语法。
+
+## References
+
+| File | When to read |
+|------|--------------|
+| `references/h3-syntax.md` | 写 MiniMax H3 提示词前必读（模式选择、六段式、标签映射、H3 QA） |
+| `references/seedance-syntax.md` | Seedance 2.0 `@` 语法与限制细节 |
+| `references/type-templates.md` | 七种内容类型的时间轴模板 |
+| `references/role-contracts.md` | 五角色交付契约与接力规则 |
