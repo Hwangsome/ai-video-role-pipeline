@@ -22,12 +22,12 @@ agent_created: true
 用 `scripts/extract_keyframes.py` 对视频按秒抽帧并生成拼图（contact sheet），每张拼图含 25 帧，Read 一次即可审 25 个机位：
 
 ```bash
+export PATH="/c/Users/TK260601/.workbuddy/binaries/PortableGit/versions/1.2.0/usr/bin:$PATH"  # 本机 Bash 必需
 python extract_keyframes.py --video "视频.mp4" --out frames/          # 1fps 全量 + 拼图
 python extract_keyframes.py --video "视频.mp4" --out frames/ --shot 4.5 6.5 9.0   # 精确时刻补抽
 ```
 
-- 前置条件：ffmpeg / ffprobe 在 PATH 中；Python 3.10+（remove_ai_watermark.py 另需 numpy + opencv-python）。
-- Windows Git Bash 若缺 coreutils（`ls` 报 command not found），把 Git 安装目录的 `usr/bin` 加入 PATH，或改用 PowerShell / cmd。
+- 本机 Python 用 `C:/Users/TK260601/AppData/Local/Programs/Python/Python313/python.exe`（有 cv2/numpy；裸 `python` 没有第三方库）。
 - 从拼图挑出机位（哪个时刻是正面、侧面、俯视、细节特写），再用 `--shot` 抽 `-q:v 2` 高质量单帧。
 
 ### Step 2 — 图生图重绘（产品一致性的关键）
@@ -67,8 +67,8 @@ python remove_ai_watermark.py --input "图片目录或单图" --output "输出�
 
 ### Step 4 — 归档
 
-- 归档到用户自己的资产目录（示例：`D:\电商工作流\视频流程\3.资产\图片资产\`，产品图放其下 `产品资产\<产品名>\`），命名 `编号_类型_描述.png`（如 `01_正面全身_手持展示.png`）。
-- 交付时列出全部成品图，并附一张「图 ↔ 视频场景时间点」对照表。
+- 用户的电商资产根目录：`D:\电商工作流\视频流程\3.资产\图片资产\`，产品图放其下 `产品资产\` 子目录，命名 `编号_类型_描述.png`（如 `01_正面全身_手持展示.png`）。
+- 交付时用 present_files 列出全部成品图，并附一张「图 ↔ 视频场景时间点」对照表。
 
 ### Step 5 — 卖点痛点提炼（可独立执行）
 
@@ -91,11 +91,13 @@ python remove_ai_watermark.py --input "图片目录或单图" --output "输出�
 
 1. **忘记传 image1** → 产品结构自创，整张作废。生成前检查参数。
 2. **cv2 中文路径** → 一律用脚本内封装的读写，不要裸调 `cv2.imread/imwrite`。
-3. **Windows Git Bash 缺 coreutils** → 把 Git 安装目录的 `usr/bin` 加入 PATH，或改用 PowerShell / cmd。
+3. **本机 Bash 缺 coreutils** → 命令前加 `export PATH="/c/Users/TK260601/.workbuddy/binaries/PortableGit/versions/1.2.0/usr/bin:$PATH"`。
 4. **白底低对比水印** → 默认阈值检不出（mask_px=0 是信号），降 `--thresh`。
 5. **亮色泡沫/金属高光** → 阈值法会整片误修，顶帽法默认已规避；若仍涂抹，升阈值。
 6. 用户说"根据视频生成产品图"指的是**重绘**，不是截帧——先确认意图再动手。
 7. **卖点痛点靠脑补** → 离开画面事实自由发挥，写出视频根本没有的功能。每条都要能在抽出的帧里指出来源。
+8. **局部细节特写必须限定画面范围**：prompt 里明确 "ONLY the bottom part / close-up of X，不出现整件产品"，否则模型会自作主张生成全景（实测：要轮子细节，给了整桶+黑内桶）。跑偏就带更强限定词重做。
+9. **水印压在木地板/皮肤上时 TELEA 会留涂抹斑** → 先看 `--sheet` 验收图，有斑就用本机 `simple_lama_inpainting`（Python313 已装）按同一掩膜做 LaMa 修复，纹理重建近乎完美。一次性模板见历次 `work_*/lama_fix.py` 写法：读源图 → 顶帽掩膜(thresh 12, dilate 2) → SimpleLama(pil_img, pil_mask) → imencode 覆盖归档文件。
 
 ## Resources
 
