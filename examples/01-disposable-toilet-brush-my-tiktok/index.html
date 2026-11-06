@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seedance 2.0 Asset Package — 《Toilet Brush Horror Story》｜一次性马桶刷 · 马来西亚 TikTok</title>
+<style>
+  :root {
+    --bg: #f7f8fa; --card: #ffffff; --ink: #1f2329; --ink-2: #57606a;
+    --line: #e4e8ee; --accent: #0969da; --accent-soft: #eaf2fd;
+    --ok: #1a7f37; --warn: #9a6700; --danger: #cf222e; --chip: #f0f3f7;
+    --radius: 12px; --mono: "Cascadia Code", "JetBrains Mono", Consolas, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--ink); font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif; line-height: 1.7; padding-bottom: 64px; }
+  .wrap { max-width: 920px; margin: 0 auto; padding: 0 20px; }
+  header { background: linear-gradient(135deg, #0d1b3e 0%, #17346f 60%, #1f5cb8 100%); color: #fff; padding: 48px 0 40px; }
+  header .wrap { max-width: 920px; }
+  .kicker { font-size: 13px; letter-spacing: 2px; opacity: .75; text-transform: uppercase; }
+  header h1 { font-size: 30px; margin: 10px 0 6px; font-weight: 700; }
+  header .sub { opacity: .85; font-size: 15px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+  .chip { background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.25); border-radius: 999px; padding: 4px 14px; font-size: 13px; }
+  .chip b { font-weight: 600; }
+  section { margin-top: 36px; }
+  h2 { font-size: 20px; padding-left: 12px; border-left: 4px solid var(--accent); margin-bottom: 14px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px 24px; box-shadow: 0 1px 3px rgba(20,40,80,.05); }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 640px) { .grid2 { grid-template-columns: 1fr; } }
+  .kv { background: var(--accent-soft); border-radius: 10px; padding: 14px 16px; }
+  .kv .k { font-size: 12px; color: var(--accent); font-weight: 600; letter-spacing: 1px; }
+  .kv .v { font-size: 14.5px; margin-top: 4px; }
+  .tag { display: inline-block; font-size: 11px; border-radius: 5px; padding: 1px 8px; margin-left: 6px; vertical-align: 1px; }
+  .tag-user { background: #e8f3ee; color: var(--ok); border: 1px solid #bfe3cf; }
+  .tag-web { background: #eaf2fd; color: var(--accent); border: 1px solid #c5d9f5; }
+  .tag-gen { background: #fff1e6; color: var(--warn); border: 1px solid #f2d9b8; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th { text-align: left; background: var(--chip); color: var(--ink-2); font-weight: 600; padding: 9px 12px; border-bottom: 2px solid var(--line); white-space: nowrap; }
+  td { padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  code { font-family: var(--mono); font-size: 12.5px; background: var(--chip); border-radius: 4px; padding: 1px 6px; }
+  .prompt-box { position: relative; }
+  .prompt-box pre { font-family: var(--mono); font-size: 13px; line-height: 1.8; background: #0d1b3e; color: #dbe6f8; border-radius: 10px; padding: 20px; overflow-x: auto; white-space: pre-wrap; word-break: break-all; }
+  .prompt-box .seg { color: #ffd166; font-weight: 700; }
+  .copy-btn { position: absolute; top: 14px; right: 14px; background: #1f5cb8; color: #fff; border: none; border-radius: 8px; padding: 7px 16px; font-size: 13px; cursor: pointer; font-family: inherit; }
+  .copy-btn:hover { background: #2a6cc8; }
+  .copy-btn.done { background: var(--ok); }
+  ul.check { list-style: none; }
+  ul.check li { padding: 7px 0 7px 30px; position: relative; border-bottom: 1px dashed var(--line); font-size: 14.5px; }
+  ul.check li:last-child { border-bottom: none; }
+  ul.check li::before { content: "✓"; position: absolute; left: 4px; color: var(--ok); font-weight: 700; }
+  ul.check li.pending::before { content: "◻"; color: var(--warn); }
+  ul.check li.pending { color: var(--ink-2); }
+  .note { background: #fff8e6; border: 1px solid #f2dcab; border-radius: 10px; padding: 12px 16px; font-size: 13.5px; color: #7a5b00; margin-top: 12px; }
+  .files { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+  .file-link { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 10px 16px; font-size: 13.5px; color: var(--accent); text-decoration: none; }
+  .file-link:hover { border-color: var(--accent); }
+  footer { margin-top: 48px; text-align: center; color: var(--ink-2); font-size: 13px; }
+  .shot-table td:first-child { font-weight: 700; color: var(--accent); white-space: nowrap; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="kicker">AI Video Role Pipeline · Seedance 2.0 Asset Package · Example 01</div>
+    <h1>《Toilet Brush Horror Story》</h1>
+    <div class="sub">ecoco 一次性马桶刷 · 搞怪离谱短片 · 完整可执行资产包</div>
+    <div class="chips">
+      <span class="chip">市场 <b>马来西亚</b></span>
+      <span class="chip">平台 <b>TikTok</b></span>
+      <span class="chip">类型 <b>搞怪离谱</b></span>
+      <span class="chip">时长 <b>15s</b></span>
+      <span class="chip">画幅 <b>9:16 · 1080p</b></span>
+      <span class="chip">参考图 <b>9 张（=上限）</b></span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<section id="insight">
+  <h2>0 · Product Insight Summary</h2>
+  <div class="card">
+    <div class="grid2">
+      <div class="kv"><div class="k">用户痛点</div><div class="v">传统刷毛缠毛发挂污；刷完甩水脏手；底座积水发臭"马桶刷比马桶还脏"；弯腰腰酸 <span class="tag tag-user">用户提供</span></div></div>
+      <div class="kv"><div class="k">核心卖点</div><div class="v">一次性刷头用完即弃；一按脱头落盒全程不脏手；蓝色清洁泡沫包裹污渍；海绵压沟槽无死角、长杆免弯腰、壁挂超薄 <span class="tag tag-user">用户提供</span></div></div>
+      <div class="kv"><div class="k">创意结构</div><div class="v">别人的产品很惨（0–3s 惨剧）→ 我们的夸张开挂（3–9s 蓝泡爆发+三连刷）→ 一按落盒荒诞高潮（9–12s）→ 冷静收尾（12–15s）</div></div>
+      <div class="kv"><div class="k">本地化钩子</div><div class="v">马来语玩梗字幕 + malas 自嘲幽默 <span class="tag tag-web">网上研究：TikTok 马来 1690 万播放同类爆款验证</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="images">
+  <h2>1 · Required Images（按此顺序上传）</h2>
+  <div class="card" style="overflow-x:auto">
+    <table>
+      <tr><th>Label</th><th>来源</th><th>用途</th><th>内容</th></tr>
+      <tr><td><b>Image1</b></td><td><code>01_全身立视_挂墙收纳.png</code></td><td>第一帧+产品锚点</td><td>灰墙前白色椭圆收纳盒（ecoco 标）壁挂+白长杆，旁边白马桶</td></tr>
+      <tr><td><b>Image2</b></td><td><code>05_场景_刷头刷洗马桶沿.png</code></td><td>清洁力证明</td><td>蓝圆环头刷洗内沿，水泛蓝起泡</td></tr>
+      <tr><td><b>Image3</b></td><td><code>06_场景_内沿深度刷洗.png</code></td><td>死角证明</td><td>长杆直立，刷头压进内沿沟槽</td></tr>
+      <tr><td><b>Image4</b></td><td><code>08_场景_水面刷洗俯拍.png</code></td><td>蓝泡爆发帧</td><td>俯拍蓝色泡沫海洋</td></tr>
+      <tr><td><b>Image5</b></td><td><code>07_场景_翻盖丢弃替换头.png</code></td><td>不脏手关键镜头</td><td>翻盖丢弃，刷头落进盒内</td></tr>
+      <tr><td><b>Image6</b></td><td><code>09_道具_传统脏刷对比.png</code> <span class="tag tag-gen">AI 生成</span></td><td>反派对比</td><td>同场景传统圆头刷：刷毛发黄缠发藏污、积垢底座</td></tr>
+      <tr><td><b>Image7</b></td><td><code>马来西亚人\正面.png</code></td><td>人物面部锚点</td><td>灰棕头巾+绿上衣+米白裤，正面</td></tr>
+      <tr><td><b>Image8</b></td><td><code>马来西亚人\侧面.png</code></td><td>侧脸轮廓锚点</td><td>同一人物侧面</td></tr>
+      <tr><td><b>Image9</b></td><td><code>马来西亚人\背面.png</code></td><td>背影/头巾锚点</td><td>同一人物背面</td></tr>
+    </table>
+    <div class="note">人物形象已获授权（账号实测可上传）；三视图分工 = 正面锁脸 / 侧面锁轮廓 / 背面锁头巾造型，提示词明确"跨镜头同一人"。为容纳三视图，已裁掉 02 安装图与 03 替换头细节图。</div>
+  </div>
+</section>
+
+<section id="shotlist">
+  <h2>1.5 · Shot List（15s 五镜）</h2>
+  <div class="card" style="overflow-x:auto">
+    <table class="shot-table">
+      <tr><th>时间</th><th>画面</th><th>字幕</th><th>服务的痛点/卖点</th></tr>
+      <tr><td>0–3s</td><td>传统刷惨剧：缠头发、甩水溅裤、底座冒绿色臭味波浪，女主瞪眼崩溃盯镜头</td><td>「Toilet brush horror story 💀」</td><td>痛点：缠毛发/甩水脏/底座发臭</td></tr>
+      <tr><td>3–6s</td><td>从壁挂盒抽出 ecoco，刷头入水"轰"地炸开蓝色泡沫海洋，女主惊喜 O 型嘴</td><td>「POWER UP ⚡」</td><td>卖点：蓝色清洁泡沫包裹污渍</td></tr>
+      <tr><td>6–9s</td><td>开挂三连：压沟槽刮黄渍、贴壁一刷锃亮、直立免弯腰挑眉</td><td>「Gosok sekali, terus cemerlang ✨」</td><td>卖点：无死角、免弯腰</td></tr>
+      <tr><td>9–12s</td><td>拇指"咔哒"脱头，翻盖落盒精准入袋，女主摊手耸肩淡定得意</td><td>「Sekali tekan. Siap. Tak kotor tangan 🖐️」</td><td>卖点：一键抛头、全程不脏手</td></tr>
+      <tr><td>12–15s</td><td>壁挂盒+新替换头定格，俏皮点头，背影轻快出画</td><td>「Sponge baru, mindset baru 🧼」</td><td>卖点：一次性耗材+壁挂收纳</td></tr>
+    </table>
+  </div>
+</section>
+
+<section id="prompt">
+  <h2>2 · Ready-to-Paste Prompt</h2>
+  <div class="card prompt-box">
+    <button class="copy-btn" onclick="copyPrompt(this)">复制全文</button>
+    <pre id="promptText">搞笑好物短片，明亮欢快的马来西亚家庭卫生间实景，9:16 竖屏，15 秒，TikTok 快剪节奏。开场场景 references @Image1（灰墙白马桶明亮卫生间），产品 references @Image1's product as the subject，全程保持 @Image1 的白色椭圆收纳盒、白色长杆和蓝色圆环海绵头外观一致。刷洗动作 references @Image2 和 @Image3，蓝色泡沫爆发 references @Image4 的俯拍视觉，翻盖丢弃 references @Image5，旧刷子 references @Image6。女主角 references @Image7's woman as the actress——马来西亚女性，灰棕色头巾、鼠尾草绿长上衣、米白长裤，她的侧脸轮廓保持 @Image8 一致，背影和头巾造型保持 @Image9 一致，跨所有镜头必须是同一个人。
+
+【0-3秒】@Image6 的传统圆头刷演惨剧：她用这把缠着头发的刷子刷了两下，一甩甩出脏水花溅到米白裤腿上，她瞪大眼睛五官皱成一团盯着镜头做夸张崩溃表情；传统刷插回积水底座，底座上方冒起夸张的绿色臭味波浪轻特效，她扇着鼻子连连后仰。快切卡点，脸部特写收尾，字幕弹出「Toilet brush horror story 💀」。
+
+【3-6秒】她眼睛一亮，一把从 @Image1 的白色收纳盒抽出白杆刷，蓝色圆环海绵头戳进马桶水面——蓝色清洁泡沫"轰"地炸开成 @Image4 同款蓝色泡沫海洋，泡沫像海浪漫开，她的脸被蓝光映亮，惊喜到嘴巴张成 O 型，镜头轻微升格定格她的反应特写，配游戏 Power Up 音效，字幕「POWER UP ⚡」。
+
+【6-9秒】开挂三连快切，每下都卡点：@Image3 的海绵头压进内沿沟槽刮过，黄渍跟着蓝泡卷走；@Image2 的角度贴壁一刷锃亮；她直立站着用长杆刷完全不弯腰，侧脸入镜还得意挑眉，马桶越来越亮，字幕「Gosok sekali, terus cemerlang ✨」。
+
+【9-12秒】高潮：特写她的拇指按下杆身按钮"咔哒"，蓝色脏刷头干脆脱落，她随手翻开 @Image5 的收纳盒盖，脏刷头精准落进盒内垃圾袋，盖子"啪"地合上；她转向镜头摊手耸肩，一脸"这不是常识吗"的淡定得意，字幕「Sekali tekan. Siap. Tak kotor tangan 🖐️」。
+
+【12-15秒】冷静收尾：@Image1 的超薄壁挂收纳盒特写，她拿起新的蓝色圆环替换海绵头（独立小包装）对镜头轻点两下，俏皮点头；最后定格明亮卫生间全景，她的背影轻快走出画面，明快收尾音效，字幕「Sponge baru, mindset baru 🧼」。
+
+整体风格：明亮热带家居色调，快剪卡点，夸张音效+滑稽表情喜剧，女主角表情夸张生动是喜剧核心，马来语字幕为主英语点缀，产品始终清晰可识别。</pre>
+  </div>
+</section>
+
+<section id="params">
+  <h2>3 · Generation Parameters</h2>
+  <div class="card">
+    <div class="grid2">
+      <div class="kv"><div class="k">Duration</div><div class="v">15s</div></div>
+      <div class="kv"><div class="k">Resolution</div><div class="v">1080p · 9:16 竖屏</div></div>
+      <div class="kv"><div class="k">Generate audio</div><div class="v">开启（音效驱动 + trend audio 感）</div></div>
+      <div class="kv"><div class="k">Mode</div><div class="v">图生视频 · 按顺序上传 9 张图 + 粘贴提示词</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="qa">
+  <h2>4 · QA Checklist</h2>
+  <div class="card">
+    <ul class="check">
+      <li>痛点被清晰感知 → 0–3s 缠发/甩水溅裤/臭味波浪三连惨剧 + 崩溃表情</li>
+      <li>卖点被动作或画面证明 → 蓝泡爆发（3–6s）、沟槽刷净+免弯腰（6–9s）、一按落盒（9–12s）</li>
+      <li>产品始终可识别 → @Image1 锚定收纳盒+长杆+蓝圆环头三特征，收尾定格</li>
+      <li>人物一致性 → @Image7 锁脸、@Image8 锁侧脸、@Image9 锁头巾背影，提示词明确"跨镜头同一人"</li>
+      <li>搞怪足够离谱 → 惨剧→开挂→摊手炫耀，反差夸张不温吞</li>
+      <li>符合马来西亚市场与 TikTok 平台习惯 → 明亮色调、马来语字幕、9:16、前 3 秒钩子、卡点快剪</li>
+      <li>合规 → 无杀菌率等未验证宣称；无第三方 IP 贴纸；人物形象已获授权</li>
+      <li class="pending">生成后人工复核：三视图是否融合成同一人、蓝泡爆发幅度、刷头落盒动作、马来语字幕拼写</li>
+    </ul>
+  </div>
+</section>
+
+<section id="files">
+  <h2>配套文档</h2>
+  <div class="files">
+    <a class="file-link" href="Seedance_Asset_Package.md">📄 Seedance_Asset_Package.md</a>
+    <a class="file-link" href="concept_brief.md">📄 concept_brief.md</a>
+    <a class="file-link" href="shot_list.md">📄 shot_list.md</a>
+    <a class="file-link" href="ref_map.md">📄 ref_map.md</a>
+    <a class="file-link" href="../../SKILL.md">⚙ SKILL.md（技能入口）</a>
+  </div>
+</section>
+
+<footer>Generated with ai-video-role-pipeline · 五角色流水线 · Step 0 用户输入 + 网络研究 · 来源标注体系 [用户提供] / [网上研究] / [推断]</footer>
+
+</div>
+
+<script>
+function copyPrompt(btn) {
+  const text = document.getElementById('promptText').innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = '已复制 ✓';
+    btn.classList.add('done');
+    setTimeout(() => { btn.textContent = '复制全文'; btn.classList.remove('done'); }, 2000);
+  });
+}
+</script>
+</body>
+</html>
