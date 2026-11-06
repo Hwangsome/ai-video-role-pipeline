@@ -59,7 +59,7 @@ git clone https://github.com/Hwangsome/ai-video-role-pipeline.git
 2. 卖点用你提供的，还是结合网上研究？
 3. 痛点用你提供的，还是结合网上研究？
 4. 目标市场 + 平台？（如 中国大陆+抖音 / 马来西亚+TikTok）
-5. 目标模型？（Seedance 2.0 / MiniMax H3 / 两个都要）
+5. 目标模型？（Seedance 2.0 / MiniMax H3 / 两个都要）——**能推断就不问**：提到 @Image/即梦 → Seedance，提到 H3/AIMixer/Ref2VA → H3，无线索默认 Seedance 并注明可切换
 
 回答后流水线自动跑完五个角色，产出完整资产包。也可以跳过提问直接给全量输入：
 

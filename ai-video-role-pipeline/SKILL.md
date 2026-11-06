@@ -36,10 +36,12 @@ Before locking the concept or running the 5 roles, **always ask the user** for t
 4. （可选但推荐）**目标市场 + 平台**
    - 例如：中国大陆 + 抖音 / 美国 + TikTok / 中国大陆 + 小红书 等
 
-5. **目标模型（决定提示词语法）**
-   - Seedance 2.0 / 即梦 → `@Image` 语法
-   - MiniMax H3 → 官方 Base（T2VA/I2VA/FL2VA/L2VA）或 Ref2VA 六段式
-   - 不确定时说「两个都要」，同时产出两版提示词（同一分镜，两套语法）
+5. **目标模型（决定提示词语法）——能推断就别问**
+   - **先推断**：用户提到「@Image / 即梦 / Seedance」→ Seedance 2.0；提到「H3 / MiniMax / AIMixer / ComfyUI / Ref2VA / Subject / 六段式」→ MiniMax H3
+   - **按素材推断**：需要 ≥3 张身份参考图（人物三视图等）并要跨镜同一人 → 建议 H3 Ref2VA（Subject 合并多图更稳）；只有一张首帧 → Seedance 图生视频或 H3 I2VA 都可
+   - **完全无线索** → 默认 Seedance 2.0（即梦普及度最高），交付时用一行注明「需要 H3 版随时说」
+   - **只有这两种情况才开口问**：① 用户对角色/产品一致性精度要求高，而模型选择会改变素材准备方式；② 用户提到的平台/工具名无法唯一判定（如只说「做个参考生视频」）
+   - 用户说「两个都要」→ 同一分镜出两版提示词，分两份文件，**语法不混用**
 
 然后：
 - 用户已提供的卖点/痛点 → 优先采用
