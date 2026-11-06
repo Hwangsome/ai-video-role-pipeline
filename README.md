@@ -4,7 +4,7 @@
 
 `ai-video-role-pipeline` 是一个面向电商 AI 视频生产的 Agent Skill。它不是"写一段提示词"，而是一条流水线：先向用户收齐产品图、卖点、痛点和目标市场，再按五个角色的顺序把创意一路推到可直接上传生成的 **Seedance Asset Package**。
 
-仓库同时收录配套技能 **`ecom-product-asset-gen`**：从产品演示视频生成与视频同款一致的产品资产图（三视图 / 细节图 / 场景图），并去除生成平台水印——正好补上流水线 Step 0 "产品图不够" 和 Step 3 参考图来源这两个缺口。
+仓库同时收录配套技能 **`ecom-product-asset-gen`**：从产品演示视频生成与视频同款一致的产品资产图（三视图 / 细节图 / 场景图）、去除生成平台水印，并从画面提炼卖点痛点洞察——正好补上流水线 Step 0 "产品图不够、卖点痛点靠脑补" 和 Step 3 参考图来源这两个缺口。
 
 [快速开始](#快速开始) · [支持的内容类型](#同一商品可以拍成什么) · [工作流程](#它怎么工作) · [交付物](#你会拿到什么) · [实际案例](#实际案例) · [配套技能](#配套技能产品资产图生成) · [技能入口](ai-video-role-pipeline/SKILL.md)
 
@@ -139,7 +139,7 @@ Step 0：向用户收产品图 / 卖点 / 痛点 / 市场+平台
 
 ## 配套技能：产品资产图生成（ecom-product-asset-gen）
 
-流水线经常卡在"产品图不够 / 角度不对 / 带着字幕水印"。这个配套技能从**一段产品演示视频**出发，产出干净的资产图，为流水线补参考图：
+流水线经常卡在"产品图不够 / 角度不对 / 卖点痛点靠脑补 / 带着字幕水印"。这个配套技能从**一段产品演示视频**出发，产出两类资产，为流水线补齐输入：
 
 ```text
 Step 1  ffmpeg 按秒抽帧 + 拼图快览 → 锁定正面 / 侧面 / 俯视 / 细节机位
@@ -147,17 +147,22 @@ Step 2  以视频原帧为参考图做图生图（高保真），重绘无字幕
         产品结构同款一致的场景图 → 逐张对比验收
 Step 3  形态学顶帽 + TELEA inpaint 去除右下角平台水印
 Step 4  按 编号_类型_描述.png 归档进资产目录，附图↔时间点对照表
+Step 5  从画面提炼 卖点痛点洞察（产品卖点与痛点.md）：产品定位 / 目标人群 /
+        痛点清单含画面锚点 / 卖点矩阵含证据与时间点 / 卖点↔痛点对照 /
+        三段式话术 / 不可宣称清单
 ```
 
 实测踩坑都已内置：不传参考图会产品走形、cv2 读不了中文路径、灰底/白底低对比水印的降阈值策略与矩形修复兜底。
 
 - 技能入口：[ecom-product-asset-gen/SKILL.md](ecom-product-asset-gen/SKILL.md)
+- 洞察文档骨架：[references/insight-template.md](ecom-product-asset-gen/references/insight-template.md)
 - 附带脚本（可独立使用）：
   - [`scripts/extract_keyframes.py`](ecom-product-asset-gen/scripts/extract_keyframes.py) — 视频抽帧 + contact sheet 拼图（仅需 ffmpeg）
   - [`scripts/remove_ai_watermark.py`](ecom-product-asset-gen/scripts/remove_ai_watermark.py) — 平台水印去除（需 Python 3.10+ / numpy / opencv-python，中文路径安全）
 
 ### 与流水线的衔接
 
+- **Step 0 收集卖点痛点** → 用户给不出结构化卖点时，直接丢一段演示视频，本技能的洞察输出就是 `concept_brief.md` 的上游素材（来源标注规则与流水线一致：`[画面可见]` / `[用户提供]` / `[推断]`）
 - Step 0 收集产品图时缺角度 → 用本技能从已有演示视频补齐三视图与细节图
 - Step 3 ref_map 需要场景参考图 → 用本技能重绘"同款产品 + 新场景"的干净图，替代直接截帧（截帧带字幕水印且分辨率受限）
 - 提醒：水印去除仅用于处理**自己拥有版权的生成结果或自有素材**，不用于规避他人内容的版权标识。
@@ -184,8 +189,10 @@ ai-video-role-pipeline/                # 仓库根目录
 │           ├── shot_list.md
 │           ├── ref_map.md
 │           └── Seedance_Asset_Package.md
-└── ecom-product-asset-gen/            # 配套技能：从演示视频生成产品资产图
-    ├── SKILL.md                       # 抽帧审片 → 图生图重绘 → 去水印 → 归档
+└── ecom-product-asset-gen/            # 配套技能：从演示视频生成产品资产图 + 卖点痛点洞察
+    ├── SKILL.md                       # 抽帧审片 → 图生图重绘 → 去水印 → 归档 → 卖点痛点提炼
+    ├── references/
+    │   └── insight-template.md        # 卖点痛点洞察文档的输出骨架
     └── scripts/
         ├── extract_keyframes.py       # 视频抽帧 + contact sheet 拼图（ffmpeg）
         └── remove_ai_watermark.py     # 平台水印去除（顶帽 + inpaint，中文路径安全）
