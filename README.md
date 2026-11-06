@@ -4,7 +4,9 @@
 
 `ai-video-role-pipeline` 是一个面向电商 AI 视频生产的 Agent Skill。它不是"写一段提示词"，而是一条流水线：先向用户收齐产品图、卖点、痛点和目标市场，再按五个角色的顺序把创意一路推到可直接上传生成的 **Seedance Asset Package**。
 
-[快速开始](#快速开始) · [支持的内容类型](#同一商品可以拍成什么) · [工作流程](#它怎么工作) · [交付物](#你会拿到什么) · [实际案例](#实际案例) · [技能入口](ai-video-role-pipeline/SKILL.md)
+仓库同时收录配套技能 **`ecom-product-asset-gen`**：从产品演示视频生成与视频同款一致的产品资产图（三视图 / 细节图 / 场景图），并去除生成平台水印——正好补上流水线 Step 0 "产品图不够" 和 Step 3 参考图来源这两个缺口。
+
+[快速开始](#快速开始) · [支持的内容类型](#同一商品可以拍成什么) · [工作流程](#它怎么工作) · [交付物](#你会拿到什么) · [实际案例](#实际案例) · [配套技能](#配套技能产品资产图生成) · [技能入口](ai-video-role-pipeline/SKILL.md)
 
 ## 为什么做这个技能
 
@@ -41,9 +43,9 @@ https://github.com/Hwangsome/ai-video-role-pipeline
 git clone https://github.com/Hwangsome/ai-video-role-pipeline.git
 ```
 
-将 `ai-video-role-pipeline/` 子文件夹放到你所用工具的技能目录（例如 WorkBuddy 用户级技能目录 `~/.workbuddy/skills/`），或让能读取本地文件的 Agent 直接按 [`SKILL.md`](ai-video-role-pipeline/SKILL.md) 执行。
+将 `ai-video-role-pipeline/` 子文件夹放到你所用工具的技能目录（例如 WorkBuddy 用户级技能目录 `~/.workbuddy/skills/`），或让能读取本地文件的 Agent 直接按 [`SKILL.md`](ai-video-role-pipeline/SKILL.md) 执行。配套技能 `ecom-product-asset-gen/` 同样整体复制到技能目录即可。
 
-技能本体不依赖任何第三方包；`scripts/` 下的研究脚本只使用 Python 标准库（3.10+），用于生成定向搜索查询和整理研究结果。
+主技能本体不依赖任何第三方包；`scripts/` 下的研究脚本只使用 Python 标准库（3.10+）。配套技能的 `extract_keyframes.py` 需要 ffmpeg 在 PATH 中，`remove_ai_watermark.py` 需要 numpy + opencv-python。
 
 ### 安装后，复制这段开始使用
 
@@ -135,28 +137,58 @@ Step 0：向用户收产品图 / 卖点 / 痛点 / 市场+平台
 
 配套文档：[concept_brief.md](ai-video-role-pipeline/examples/01-disposable-toilet-brush-my-tiktok/concept_brief.md) · [shot_list.md](ai-video-role-pipeline/examples/01-disposable-toilet-brush-my-tiktok/shot_list.md) · [ref_map.md](ai-video-role-pipeline/examples/01-disposable-toilet-brush-my-tiktok/ref_map.md) · [Seedance_Asset_Package.md](ai-video-role-pipeline/examples/01-disposable-toilet-brush-my-tiktok/Seedance_Asset_Package.md)
 
+## 配套技能：产品资产图生成（ecom-product-asset-gen）
+
+流水线经常卡在"产品图不够 / 角度不对 / 带着字幕水印"。这个配套技能从**一段产品演示视频**出发，产出干净的资产图，为流水线补参考图：
+
+```text
+Step 1  ffmpeg 按秒抽帧 + 拼图快览 → 锁定正面 / 侧面 / 俯视 / 细节机位
+Step 2  以视频原帧为参考图做图生图（高保真），重绘无字幕、无水印、
+        产品结构同款一致的场景图 → 逐张对比验收
+Step 3  形态学顶帽 + TELEA inpaint 去除右下角平台水印
+Step 4  按 编号_类型_描述.png 归档进资产目录，附图↔时间点对照表
+```
+
+实测踩坑都已内置：不传参考图会产品走形、cv2 读不了中文路径、灰底/白底低对比水印的降阈值策略与矩形修复兜底。
+
+- 技能入口：[ecom-product-asset-gen/SKILL.md](ecom-product-asset-gen/SKILL.md)
+- 附带脚本（可独立使用）：
+  - [`scripts/extract_keyframes.py`](ecom-product-asset-gen/scripts/extract_keyframes.py) — 视频抽帧 + contact sheet 拼图（仅需 ffmpeg）
+  - [`scripts/remove_ai_watermark.py`](ecom-product-asset-gen/scripts/remove_ai_watermark.py) — 平台水印去除（需 Python 3.10+ / numpy / opencv-python，中文路径安全）
+
+### 与流水线的衔接
+
+- Step 0 收集产品图时缺角度 → 用本技能从已有演示视频补齐三视图与细节图
+- Step 3 ref_map 需要场景参考图 → 用本技能重绘"同款产品 + 新场景"的干净图，替代直接截帧（截帧带字幕水印且分辨率受限）
+- 提醒：水印去除仅用于处理**自己拥有版权的生成结果或自有素材**，不用于规避他人内容的版权标识。
+
 ## 仓库结构
 
 ```text
 ai-video-role-pipeline/                # 仓库根目录
 ├── README.md
-└── ai-video-role-pipeline/            # 技能文件夹（整体安装这一层）
-    ├── SKILL.md                       # 唯一技能入口：Step 0 + 五角色流水线
-    ├── references/
-    │   ├── role-contracts.md          # 五角色的交付契约与接力规则
-    │   ├── seedance-syntax.md         # @ 参考图语法与硬约束
-    │   └── type-templates.md          # 七种内容类型的时间轴模板
-    ├── scripts/
-    │   ├── research_creatives.py      # 按商品+类型+市场+平台生成定向搜索查询
-    │   └── format_insight.py          # 把研究结论整理成结构化 Markdown
-    └── examples/
-        └── 01-disposable-toilet-brush-my-tiktok/
-            ├── index.html             # 单文件 HTML 交付物（可一键复制提示词）
-            ├── generated-video.mp4    # 实际生成成片（15s · 9:16）
-            ├── concept_brief.md
-            ├── shot_list.md
-            ├── ref_map.md
-            └── Seedance_Asset_Package.md
+├── ai-video-role-pipeline/            # 技能文件夹（整体安装这一层）
+│   ├── SKILL.md                       # 唯一技能入口：Step 0 + 五角色流水线
+│   ├── references/
+│   │   ├── role-contracts.md          # 五角色的交付契约与接力规则
+│   │   ├── seedance-syntax.md         # @ 参考图语法与硬约束
+│   │   └── type-templates.md          # 七种内容类型的时间轴模板
+│   ├── scripts/
+│   │   ├── research_creatives.py      # 按商品+类型+市场+平台生成定向搜索查询
+│   │   └── format_insight.py          # 把研究结论整理成结构化 Markdown
+│   └── examples/
+│       └── 01-disposable-toilet-brush-my-tiktok/
+│           ├── index.html             # 单文件 HTML 交付物（可一键复制提示词）
+│           ├── generated-video.mp4    # 实际生成成片（15s · 9:16）
+│           ├── concept_brief.md
+│           ├── shot_list.md
+│           ├── ref_map.md
+│           └── Seedance_Asset_Package.md
+└── ecom-product-asset-gen/            # 配套技能：从演示视频生成产品资产图
+    ├── SKILL.md                       # 抽帧审片 → 图生图重绘 → 去水印 → 归档
+    └── scripts/
+        ├── extract_keyframes.py       # 视频抽帧 + contact sheet 拼图（ffmpeg）
+        └── remove_ai_watermark.py     # 平台水印去除（顶帽 + inpaint，中文路径安全）
 ```
 
 ## 使用边界
