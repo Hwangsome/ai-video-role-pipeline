@@ -130,7 +130,8 @@ Step 0：向用户收产品图 / 卖点 / 痛点 / 市场+平台
 - 研究结论：TikTok 马来清洁内容以 malas 自嘲钩子 + 口语化马来语字幕跑量 `[网上研究]`
 - 创意《Toilet Brush Horror Story》：传统刷惨剧（缠发/甩水/臭味波浪）→ 蓝泡爆发开挂三连刷 → 一按落盒摊手炫耀 → 马来语字幕冷静收尾
 - 9 张参考图打满上限：产品 5 张 + AI 脏刷 1 张 + 人物三视图 3 张（正面锁脸 / 侧面锁轮廓 / 背面锁头巾）
-- 配套单文件 HTML 交付物（含一键复制提示词）：[examples/01-disposable-toilet-brush-my-tiktok/index.html](examples/01-disposable-toilet-brush-my-tiktok/index.html)
+- **已按此资产包实际生成成片**：[generated-video.mp4](examples/01-disposable-toilet-brush-my-tiktok/generated-video.mp4)（15s · 9:16），「POWER UP ⚡」蓝泡爆发等关键时序与提示词一一对应
+- 配套单文件 HTML 交付物（含一键复制提示词 + 成片播放）：[examples/01-disposable-toilet-brush-my-tiktok/index.html](examples/01-disposable-toilet-brush-my-tiktok/index.html)
 
 配套文档：[concept_brief.md](examples/01-disposable-toilet-brush-my-tiktok/concept_brief.md) · [shot_list.md](examples/01-disposable-toilet-brush-my-tiktok/shot_list.md) · [ref_map.md](examples/01-disposable-toilet-brush-my-tiktok/ref_map.md) · [Seedance_Asset_Package.md](examples/01-disposable-toilet-brush-my-tiktok/Seedance_Asset_Package.md)
 
